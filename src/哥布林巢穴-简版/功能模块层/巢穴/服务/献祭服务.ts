@@ -3,7 +3,7 @@ import type { BaseResources } from '../../../核心层/服务/存档系统/模�
 import { CharacterLevelUpService } from '../../../核心层/服务/通用服务/人物升级服务';
 
 /**
- * 哥布林类型配置
+ * 黑液寄生虫类型配置
  */
 export interface GoblinType {
   id: keyof BaseResources;
@@ -13,7 +13,7 @@ export interface GoblinType {
 }
 
 /**
- * 献祭的哥布林数量
+ * 献祭的黑液寄生虫数量
  */
 export interface SacrificeAmounts {
   normalGoblins: number;
@@ -35,22 +35,22 @@ export interface SacrificeResult {
 
 /**
  * 献祭服务
- * 负责处理献祭哥布林升级的相关逻辑
+ * 负责处理献祭黑液寄生虫升级的相关逻辑
  */
 export class SacrificeService {
   /**
-   * 哥布林类型配置
+   * 黑液寄生虫类型配置
    * 每升1级需要的固定数量（根据稀有度设置）
    */
   static readonly GOBLIN_TYPES: GoblinType[] = [
-    { id: 'normalGoblins', name: '普通哥布林', icon: '👹', requiredAmount: 100 }, // 最常见，需要最多
-    { id: 'warriorGoblins', name: '哥布林战士', icon: '⚔️', requiredAmount: 20 }, // 较稀有
-    { id: 'shamanGoblins', name: '哥布林萨满', icon: '🔮', requiredAmount: 10 }, // 稀有
-    { id: 'paladinGoblins', name: '哥布林圣骑士', icon: '🛡️', requiredAmount: 5 }, // 最稀有，需要最少
+    { id: 'normalGoblins', name: '黑渊渗潮者', icon: '👹', requiredAmount: 100 }, // 最常见，需要最多
+    { id: 'warriorGoblins', name: '黑渊近卫', icon: '⚔️', requiredAmount: 20 }, // 较稀有
+    { id: 'shamanGoblins', name: '黑渊圣女', icon: '🔮', requiredAmount: 10 }, // 稀有
+    { id: 'paladinGoblins', name: '黑渊巫后', icon: '🛡️', requiredAmount: 5 }, // 最稀有，需要最少
   ];
 
   /**
-   * 获取指定类型的哥布林数量
+   * 获取指定类型的黑液寄生虫数量
    */
   static getGoblinCount(goblinTypeId: keyof BaseResources): number {
     const resources = modularSaveManager.resources.value;
@@ -147,7 +147,7 @@ export class SacrificeService {
   /**
    * 执行献祭
    * @param characterId 目标人物ID
-   * @param sacrificeAmounts 献祭的哥布林数量
+   * @param sacrificeAmounts 献祭的黑液寄生虫数量
    * @returns 献祭结果
    */
   static performSacrifice(characterId: string, sacrificeAmounts: SacrificeAmounts): SacrificeResult {
@@ -190,14 +190,14 @@ export class SacrificeService {
         };
       }
 
-      // 消耗哥布林资源
+      // 消耗黑液寄生虫资源
       const resourceChanges = this.GOBLIN_TYPES.map(type => {
         const amount = sacrificeAmounts[type.id as keyof SacrificeAmounts] || 0;
         if (amount > 0) {
           return {
             type: type.id,
             amount: amount,
-            reason: '献祭哥布林',
+            reason: '献祭黑液寄生虫',
           };
         }
         return null;
@@ -213,7 +213,7 @@ export class SacrificeService {
           success: false,
           oldLevel: currentLevel,
           newLevel: currentLevel,
-          message: '消耗哥布林资源失败',
+          message: '消耗黑液寄生虫资源失败',
         };
       }
 

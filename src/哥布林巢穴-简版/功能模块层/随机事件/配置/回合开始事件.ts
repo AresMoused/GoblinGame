@@ -8,7 +8,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_rumors',
     name: '世界传闻',
-    description: '关于哥布林巢穴的传闻在大陆上传播...',
+    description: '关于黑液虫巢穴的传闻在大陆上传播...',
     type: EventType.RANDOM,
     rarity: EventRarity.COMMON,
     trigger: {
@@ -18,9 +18,9 @@ export const roundStartEvents: RandomEvent[] = [
     },
     dialogueConfig: {
       title: '📰 世界传闻',
-      subtitle: '关于哥布林巢穴的消息在世界上传播',
+      subtitle: '关于黑液虫巢穴的消息在世界上传播',
       welcomeText: '📰 世界传闻记录',
-      welcomeHint: '最近，出现了一些关于哥布林巢穴的传闻，这些消息可能会影响你的发展...',
+      welcomeHint: '最近，出现了一些关于黑液虫巢穴的传闻，这些消息可能会影响你的发展...',
       showCustomInput: false, // 关闭自定义输入功能
       initialOptions: [
         { text: '仔细了解传闻', label: '了解', value: 'understand' },
@@ -28,10 +28,10 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         // 仔细了解传闻的提示词
-        const prompt = `请作为一个中立的叙述者，讲述世界目前对于哥布林巢穴的传闻。
+        const prompt = `请作为一个中立的叙述者，讲述世界目前对于黑液虫巢穴的传闻。
 
 指导原则：
-1. 参考世界书中的相关设定，如世界设定/大陆设定/势力种族设定/哥布林设定等
+1. 参考世界书中的相关设定，如世界设定/大陆设定/势力种族设定/黑液虫巢穴设定等
 2. 参考巢穴当前的资源状态/征服记录等信息，作为传闻的背景
 3. 用第三人称叙述，类似故事中的旁白，语言要生动真实，符合奇幻冒险色情游戏的风格
 4. 保持神秘和紧张的氛围
@@ -45,7 +45,7 @@ export const roundStartEvents: RandomEvent[] = [
 - 维奥莱塔·德·翡翠 - 翡翠王国女王
 - 塞拉菲娜·冯·劳伦丝 - 白玫瑰骑士团长
 - 塞勒涅·月光 - 月光女王
-- 露娜瑞尔·星歌 - 卡拉森林守护者
+- 露娜瑞尔·星歌 - 卡拉森林黑液寄生虫守护者
 - 萨拉德拉·暗影 - 暗影贤者
 - 莫尔德拉·血影 - 血港总督
 - 樱·红叶 - 九尾神巫女
@@ -89,7 +89,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'first_contact_empire',
     name: '初次接触帝国',
-    description: '哥布林巢穴首次抵达赛菲亚大陆...',
+    description: '黑液虫巢穴首次抵达赛菲亚大陆...',
     type: EventType.ENCOUNTER,
     rarity: EventRarity.EPIC,
     trigger: {
@@ -104,9 +104,9 @@ export const roundStartEvents: RandomEvent[] = [
     },
     dialogueConfig: {
       title: '🏛️ 初次接触帝国',
-      subtitle: '哥布林巢穴抵达赛菲亚大陆',
+      subtitle: '黑液虫巢穴抵达赛菲亚大陆',
       welcomeText: '🏛️ 历史性时刻',
-      welcomeHint: '哥布林巢穴首次踏上了赛菲亚帝国的土地，这是一个历史性的时刻...',
+      welcomeHint: '黑液虫巢穴首次踏上了赛菲亚帝国的土地，这是一个历史性的时刻...',
       showCustomInput: false,
       initialOptions: [
         { text: '见证历史时刻', label: '见证', value: 'witness' },
@@ -114,11 +114,11 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述哥布林巢穴首次抵达赛菲亚大陆的历史性时刻。
+        请作为中立的叙述者，描述黑液虫巢穴首次抵达赛菲亚大陆的历史性时刻。
 
 指导原则：
 1. 参考世界书中的赛菲亚帝国设定
-2. 描述这是哥布林巢穴首次踏足帝国土地的历史性时刻
+2. 描述这是黑液虫巢穴首次踏足帝国土地的历史性时刻
 3. 体现帝国的强大和威严，以及他们对这个新威胁的初步反应
 4. 语言要庄重史诗，符合历史性时刻的氛围
 5. 字数控制在600字左右
@@ -129,7 +129,7 @@ export const roundStartEvents: RandomEvent[] = [
 - 奥罗拉·德·星辉 - 维拉诺瓦城城主
 
 可能的内容方向：
-- 哥布林巢穴抵达的具体场景
+- 黑液虫巢穴抵达的具体场景
 - 帝国边境的发现和报告
 - 女帝和宫廷的初步反应
 - 边境守军的应对措施
@@ -149,7 +149,7 @@ export const roundStartEvents: RandomEvent[] = [
           return response;
         } catch (error) {
           console.error('AI生成失败:', error);
-          return '哥布林巢穴首次踏上了赛菲亚帝国的土地，这是一个历史性的时刻，帝国的边境守军正在紧急报告这一发现...';
+          return '黑液虫巢穴首次踏上了赛菲亚帝国的土地，这是一个历史性的时刻，帝国的边境守军正在紧急报告这一发现...';
         }
       },
       onOptionSelect: (option: any) => {
@@ -164,7 +164,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'first_contact_elves',
     name: '初次接触精灵',
-    description: '哥布林巢穴首次抵达中央大陆...',
+    description: '黑液虫巢穴首次抵达中央大陆...',
     type: EventType.ENCOUNTER,
     rarity: EventRarity.EPIC,
     trigger: {
@@ -179,9 +179,9 @@ export const roundStartEvents: RandomEvent[] = [
     },
     dialogueConfig: {
       title: '🌳 初次接触精灵',
-      subtitle: '哥布林巢穴抵达世界树圣域',
+      subtitle: '黑液虫巢穴抵达世界树圣域',
       welcomeText: '🌳 历史性时刻',
-      welcomeHint: '哥布林巢穴首次踏上了世界树圣域的土地，永恒精灵的古老结界感受到了新的威胁...',
+      welcomeHint: '黑液虫巢穴首次踏上了世界树圣域的土地，永恒精灵的古老结界感受到了新的威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '见证历史时刻', label: '见证', value: 'witness' },
@@ -189,21 +189,21 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述哥布林巢穴首次抵达世界树圣域的历史性时刻。
+        请作为中立的叙述者，描述黑液虫巢穴首次抵达世界树圣域的历史性时刻。
 
 指导原则：
 1. 参考世界书中的永恒精灵设定
-2. 描述这是哥布林巢穴首次踏足精灵圣域的历史性时刻
+2. 描述这是黑液虫巢穴首次踏足精灵圣域的历史性时刻
 3. 体现精灵的古老智慧和神秘感，以及他们对这个新威胁的初步反应
 4. 语言要神秘庄重，符合精灵圣域的氛围
 5. 字数控制在600字左右
 
 重要人物：
 - 塞勒涅·月光 - 月光女王
-- 露娜瑞尔·星歌 - 卡拉森林守护者
+- 露娜瑞尔·星歌 - 卡拉森林黑液寄生虫守护者
 
 可能的内容方向：
-- 哥布林巢穴抵达的具体场景
+- 黑液虫巢穴抵达的具体场景
 - 世界树结界的反应
 - 树灵议会和月光女王的初步感知
 - 精灵守卫者的发现和报告
@@ -223,7 +223,7 @@ export const roundStartEvents: RandomEvent[] = [
           return response;
         } catch (error) {
           console.error('AI生成失败:', error);
-          return '哥布林巢穴首次踏上了世界树圣域的土地，古老的结界感受到了新的威胁，永恒精灵的守卫者正在紧急报告这一发现...';
+          return '黑液虫巢穴首次踏上了世界树圣域的土地，古老的结界感受到了新的威胁，永恒精灵的守卫者正在紧急报告这一发现...';
         }
       },
       onOptionSelect: (option: any) => {
@@ -238,7 +238,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'first_contact_dark_elves',
     name: '初次接触暗影',
-    description: '哥布林巢穴首次抵达瓦尔基里大陆...',
+    description: '黑液虫巢穴首次抵达瓦尔基里大陆...',
     type: EventType.ENCOUNTER,
     rarity: EventRarity.EPIC,
     trigger: {
@@ -253,9 +253,9 @@ export const roundStartEvents: RandomEvent[] = [
     },
     dialogueConfig: {
       title: '🌑 初次接触暗影',
-      subtitle: '哥布林巢穴抵达瓦尔基里大陆',
+      subtitle: '黑液虫巢穴抵达瓦尔基里大陆',
       welcomeText: '🌑 历史性时刻',
-      welcomeHint: '哥布林巢穴首次踏上了瓦尔基里大陆的冰原，黑暗精灵的暗影密会感受到了新的威胁...',
+      welcomeHint: '黑液虫巢穴首次踏上了瓦尔基里大陆的冰原，黑暗精灵的暗影密会感受到了新的威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '见证历史时刻', label: '见证', value: 'witness' },
@@ -263,11 +263,11 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述哥布林巢穴首次抵达瓦尔基里大陆的历史性时刻。
+        请作为中立的叙述者，描述黑液虫巢穴首次抵达瓦尔基里大陆的历史性时刻。
 
 指导原则：
 1. 参考世界书中的暗影密会设定
-2. 描述这是哥布林巢穴首次踏足黑暗精灵领土的历史性时刻
+2. 描述这是黑液虫巢穴首次踏足黑暗精灵领土的历史性时刻
 3. 体现黑暗精灵的冷酷和邪恶，以及他们对这个新威胁的初步反应
 4. 语言要冷酷神秘，符合黑暗精灵的邪恶气质
 5. 字数控制在600字左右
@@ -277,7 +277,7 @@ export const roundStartEvents: RandomEvent[] = [
 - 莫尔德拉·血影 - 血港总督
 
 可能的内容方向：
-- 哥布林巢穴抵达的具体场景
+- 黑液虫巢穴抵达的具体场景
 - 黑暗巢都的感知和反应
 - 暗影贤者的初步评估
 - 黑暗精灵守卫者的发现和报告
@@ -297,7 +297,7 @@ export const roundStartEvents: RandomEvent[] = [
           return response;
         } catch (error) {
           console.error('AI生成失败:', error);
-          return '哥布林巢穴首次踏上了瓦尔基里大陆的冰原，黑暗精灵的暗影密会感受到了新的威胁，邪恶的智慧正在评估这个新出现的对手...';
+          return '黑液虫巢穴首次踏上了瓦尔基里大陆的冰原，黑暗精灵的暗影密会感受到了新的威胁，邪恶的智慧正在评估这个新出现的对手...';
         }
       },
       onOptionSelect: (option: any) => {
@@ -312,7 +312,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'first_contact_foxes',
     name: '初次接触狐族',
-    description: '哥布林巢穴首次抵达香草群岛...',
+    description: '黑液虫巢穴首次抵达香草群岛...',
     type: EventType.ENCOUNTER,
     rarity: EventRarity.EPIC,
     trigger: {
@@ -327,9 +327,9 @@ export const roundStartEvents: RandomEvent[] = [
     },
     dialogueConfig: {
       title: '🦊 初次接触狐族',
-      subtitle: '哥布林巢穴抵达香草群岛',
+      subtitle: '黑液虫巢穴抵达香草群岛',
       welcomeText: '🦊 历史性时刻',
-      welcomeHint: '哥布林巢穴首次踏上了香草群岛的土地，九尾神社和红叶商盟都感受到了新的威胁...',
+      welcomeHint: '黑液虫巢穴首次踏上了香草群岛的土地，九尾神社和红叶商盟都感受到了新的威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '见证历史时刻', label: '见证', value: 'witness' },
@@ -337,12 +337,12 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述哥布林巢穴首次抵达香草群岛的历史性时刻。
+        请作为中立的叙述者，描述黑液虫巢穴首次抵达香草群岛的历史性时刻。
 
 指导原则：
 1. 参考世界书中的狐族设定
-2. 描述这是哥布林巢穴首次踏足狐族领土的历史性时刻
-3. 体现狐族的和平理念和商业智慧，以及他们对这个新威胁的初步反应
+2. 描述这是黑液虫巢穴首次踏足狐族领土的历史性时刻
+3. 体现狐族的和平理念和神秘感，以及他们对这个新威胁的初步反应
 4. 语言要优雅神秘，符合狐族的高贵气质
 5. 字数控制在600字左右
 
@@ -351,7 +351,7 @@ export const roundStartEvents: RandomEvent[] = [
 - 枫·香草 - 红叶商盟会长
 
 可能的内容方向：
-- 哥布林巢穴抵达的具体场景
+- 黑液虫巢穴抵达的具体场景
 - 九尾神社和红叶商盟的感知
 - 神巫女和商盟代表的初步反应
 - 狐族守卫者的发现和报告
@@ -371,7 +371,7 @@ export const roundStartEvents: RandomEvent[] = [
           return response;
         } catch (error) {
           console.error('AI生成失败:', error);
-          return '哥布林巢穴首次踏上了香草群岛的土地，九尾神社的神巫女和红叶商盟的代表都感受到了新的威胁，古老的智慧正在为世界的未来而担忧...';
+          return '黑液虫巢穴首次踏上了香草群岛的土地，九尾神社的神巫女和红叶商盟的代表都感受到了新的威胁，古老的智慧正在为世界的未来而担忧...';
         }
       },
       onOptionSelect: (option: any) => {
@@ -387,7 +387,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_empire_response',
     name: '帝国应对进展',
-    description: '赛菲亚帝国对哥布林威胁的应对措施...',
+    description: '赛菲亚帝国对黑液虫巢穴威胁的应对措施...',
     type: EventType.RANDOM,
     rarity: EventRarity.UNCOMMON,
     trigger: {
@@ -403,7 +403,7 @@ export const roundStartEvents: RandomEvent[] = [
       title: '🏛️ 帝国反应',
       subtitle: '赛菲亚帝国的官方回应',
       welcomeText: '🏛️ 帝国应对进展',
-      welcomeHint: '赛菲亚帝国正在采取各种措施应对哥布林威胁...',
+      welcomeHint: '赛菲亚帝国正在采取各种措施应对黑液虫巢穴威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '查看此事件', label: '查看', value: 'view' },
@@ -411,7 +411,7 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述赛菲亚帝国对哥布林巢穴威胁的官方反应。
+        请作为中立的叙述者，描述赛菲亚帝国对黑液虫巢穴威胁的官方反应。
 
 指导原则：
 1. 参考世界书中的赛菲亚帝国设定
@@ -445,7 +445,7 @@ export const roundStartEvents: RandomEvent[] = [
           return response;
         } catch (error) {
           console.error('AI生成失败:', error);
-          return '帝国宫廷中传出了关于哥布林威胁的讨论，但具体措施尚不明确...';
+          return '帝国宫廷中传出了关于黑液虫巢穴威胁的讨论，但具体措施尚不明确...';
         }
       },
       onOptionSelect: (option: any) => {
@@ -465,7 +465,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_elf_council',
     name: '精灵应对进展',
-    description: '永恒精灵对哥布林威胁的应对措施...',
+    description: '永恒精灵对黑液虫巢穴威胁的应对措施...',
     type: EventType.RANDOM,
     rarity: EventRarity.RARE,
     trigger: {
@@ -481,7 +481,7 @@ export const roundStartEvents: RandomEvent[] = [
       title: '🌳 精灵议会',
       subtitle: '世界树圣域的古老议会',
       welcomeText: '🌳 精灵应对进展',
-      welcomeHint: '永恒精灵正在采取各种措施应对哥布林威胁...',
+      welcomeHint: '永恒精灵正在采取各种措施应对黑液虫巢穴威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '查看此事件', label: '查看', value: 'view' },
@@ -489,10 +489,10 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述永恒精灵树灵议会对哥布林巢穴威胁的讨论。
+        请作为中立的叙述者，描述永恒精灵树灵议会对黑液虫巢穴威胁的讨论。
 
 指导原则：
-1. 参考世界书中的永恒精灵设定，包括树灵议会、月光女王塞勒涅·月光、卡拉森林守护者露娜瑞尔·星歌、世界树结界等
+1. 参考世界书中的永恒精灵设定，包括树灵议会、月光女王塞勒涅·月光、卡拉森林黑液寄生虫守护者露娜瑞尔·星歌、世界树结界等
 2. 体现精灵的古老智慧和神秘感，以及他们对世界树圣域的保护责任
 3. 结合巢穴威胁度，描述精灵们的不同观点和应对策略
 4. 语言要优雅神秘，符合精灵的高贵气质
@@ -500,12 +500,12 @@ export const roundStartEvents: RandomEvent[] = [
 
 重要人物：
 - 塞勒涅·月光 - 月光女王
-- 露娜瑞尔·星歌 - 卡拉森林守护者
+- 露娜瑞尔·星歌 - 卡拉森林黑液寄生虫守护者
 
 可能的内容方向：
 - 树灵长老的不同观点
 - 月光女王的最终决定
-- 对卡拉森林哨站（如果未被征服）的支援
+- 对卡拉森林黑液寄生虫哨站（如果未被征服）的支援
 - 世界树结界的加强措施
 - 与其他种族的古老盟约
 `;
@@ -543,7 +543,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_dark_elf_response',
     name: '暗影应对进展',
-    description: '黑暗精灵对哥布林威胁的应对措施...',
+    description: '黑暗精灵对黑液虫巢穴威胁的应对措施...',
     type: EventType.RANDOM,
     rarity: EventRarity.UNCOMMON,
     trigger: {
@@ -559,7 +559,7 @@ export const roundStartEvents: RandomEvent[] = [
       title: '🌑 暗影密会',
       subtitle: '瓦尔基里大陆的黑暗议会',
       welcomeText: '🌑 暗影应对进展',
-      welcomeHint: '黑暗精灵正在采取各种措施应对哥布林威胁...',
+      welcomeHint: '黑暗精灵正在采取各种措施应对黑液虫巢穴威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '查看此事件', label: '查看', value: 'view' },
@@ -567,7 +567,7 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述暗影密会对哥布林巢穴威胁的评估和讨论。
+        请作为中立的叙述者，描述暗影密会对黑液虫巢穴威胁的评估和讨论。
 
 指导原则：
 1. 参考世界书中的暗影密会设定，包括暗影贤者萨拉德拉·暗影、血港总督莫尔德拉·血影、黑暗巢都、奴隶制经济等
@@ -621,7 +621,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_fox_shrine_response',
     name: '九尾应对进展',
-    description: '九尾神社对哥布林威胁的应对措施...',
+    description: '九尾神社对黑液虫巢穴威胁的应对措施...',
     type: EventType.RANDOM,
     rarity: EventRarity.RARE,
     trigger: {
@@ -637,7 +637,7 @@ export const roundStartEvents: RandomEvent[] = [
       title: '🦊 九尾神社',
       subtitle: '幻月城的九尾神教',
       welcomeText: '🦊 九尾应对进展',
-      welcomeHint: '九尾神社正在采取各种措施应对哥布林威胁...',
+      welcomeHint: '九尾神社正在采取各种措施应对黑液虫巢穴威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '查看此事件', label: '查看', value: 'view' },
@@ -645,7 +645,7 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述九尾神社对哥布林巢穴威胁的和平回应。
+        请作为中立的叙述者，描述九尾神社对黑液虫巢穴威胁的和平回应。
 
 指导原则：
 1. 参考世界书中的九尾神社设定，包括九尾神巫女樱·红叶、幻月城、九尾神教等
@@ -698,7 +698,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_merchant_guild_response',
     name: '商盟应对进展',
-    description: '红叶商盟对哥布林威胁的应对措施...',
+    description: '红叶商盟对黑液虫巢穴威胁的应对措施...',
     type: EventType.RANDOM,
     rarity: EventRarity.COMMON,
     trigger: {
@@ -714,7 +714,7 @@ export const roundStartEvents: RandomEvent[] = [
       title: '🍁 红叶商盟',
       subtitle: '红枫港的商业联合会',
       welcomeText: '🍁 商盟应对进展',
-      welcomeHint: '红叶商盟正在采取各种措施应对哥布林威胁...',
+      welcomeHint: '红叶商盟正在采取各种措施应对黑液虫巢穴威胁...',
       showCustomInput: false,
       initialOptions: [
         { text: '查看此事件', label: '查看', value: 'view' },
@@ -722,7 +722,7 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述红叶商盟对哥布林巢穴威胁的商业评估。
+        请作为中立的叙述者，描述红叶商盟对黑液虫巢穴威胁的商业评估。
 
 指导原则：
 1. 参考世界书中的红叶商盟设定，包括红叶商盟会长枫·香草、商业联合会、红枫港、航运网络等
@@ -776,7 +776,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_trade_disruption',
     name: '商路中断',
-    description: '哥布林威胁导致重要商路中断...',
+    description: '黑液虫巢穴威胁导致重要商路中断...',
     type: EventType.DISASTER,
     rarity: EventRarity.COMMON,
     trigger: {
@@ -789,7 +789,7 @@ export const roundStartEvents: RandomEvent[] = [
       title: '🚫 商路中断',
       subtitle: '贸易网络受到冲击',
       welcomeText: '🚫 商路中断报告',
-      welcomeHint: '哥布林巢穴的扩张已经开始影响大陆间的贸易往来...',
+      welcomeHint: '黑液虫巢穴的扩张已经开始影响大陆间的贸易往来...',
       showCustomInput: false,
       initialOptions: [
         { text: '查看此事件', label: '查看', value: 'view' },
@@ -797,7 +797,7 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述哥布林巢穴扩张对大陆贸易的影响。
+        请作为中立的叙述者，描述黑液虫巢穴扩张对大陆贸易的影响。
 
 指导原则：
 1. 参考世界书中的红叶商盟、各大陆地理设定和贸易网络
@@ -847,7 +847,7 @@ export const roundStartEvents: RandomEvent[] = [
   {
     id: 'round_start_refugee_crisis',
     name: '难民潮',
-    description: '受哥布林威胁的难民开始大规模迁移...',
+    description: '受黑液虫巢穴威胁的难民开始大规模迁移...',
     type: EventType.DISASTER,
     rarity: EventRarity.UNCOMMON,
     trigger: {
@@ -860,7 +860,7 @@ export const roundStartEvents: RandomEvent[] = [
       title: '🏃 难民潮',
       subtitle: '大规模人口迁移',
       welcomeText: '🏃 难民潮报告',
-      welcomeHint: '随着哥布林威胁的扩大，大量难民开始逃离家园，寻求安全...',
+      welcomeHint: '随着黑液虫巢穴威胁的扩大，大量难民开始逃离家园，寻求安全...',
       showCustomInput: false,
       initialOptions: [
         { text: '查看此事件', label: '查看', value: 'view' },
@@ -868,7 +868,7 @@ export const roundStartEvents: RandomEvent[] = [
       ],
       onAIGenerate: async () => {
         const prompt = `
-        请作为中立的叙述者，描述哥布林威胁导致的大规模难民潮。
+        请作为中立的叙述者，描述黑液虫巢穴威胁导致的大规模难民潮。
 
 指导原则：
 1. 参考世界书中的各大陆地理设定和势力分布

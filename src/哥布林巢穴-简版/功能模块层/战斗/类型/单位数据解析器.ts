@@ -118,7 +118,7 @@ export const ALL_UNIT_CHARACTERS = UnitDataParser.parseFromCSV(UNIT_DATA_CSV);
 /**
  * 哥布林单位数据
  */
-export const GOBLIN_UNIT_CHARACTERS = UnitDataParser.getUnitsByRace('哥布林', ALL_UNIT_CHARACTERS);
+export const GOBLIN_UNIT_CHARACTERS = UnitDataParser.getUnitsByRace('黑液寄生虫', ALL_UNIT_CHARACTERS);
 
 /**
  * 人类单位数据

@@ -38,10 +38,10 @@ export type CharacterStatus =
 export type CharacterRating = 'S' | 'A' | 'B' | 'C' | 'D';
 
 /** 哥布林类型枚举 */
-export type GoblinType = '普通哥布林' | '哥布林战士' | '哥布林萨满' | '哥布林圣骑士';
+export type GoblinType = '黑渊渗潮者' | '黑渊近卫' | '黑渊圣女' | '黑渊巫后';
 
 /** 种族类型枚举 */
-export type RaceType = '人类' | '狐族' | '永恒精灵' | '黑暗精灵' | '哥布林' | '亡灵' | '天使' | '魔族';
+export type RaceType = '人类' | '狐族' | '永恒精灵' | '黑暗精灵' | '黑液寄生虫' | '亡灵' | '天使' | '魔族';
 
 /** 出身等级枚举 */
 export type BackgroundType = '平民' | '贵族' | '王族';

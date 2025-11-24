@@ -342,7 +342,7 @@ export class NewBattleSystem {
     const previousHealth = target.currentHealth;
     target.currentHealth = Math.max(0, target.currentHealth - damage);
 
-    // 处理哥布林损失（仅对我方单位）
+    // 处理黑液寄生虫损失（仅对我方单位）
     if (target.troops && this.isAllyUnit(target)) {
       this.handleGoblinLoss(target, previousHealth, target.currentHealth);
     }
@@ -353,7 +353,7 @@ export class NewBattleSystem {
   }
 
   /**
-   * 处理哥布林损失 - 普通哥布林优先承担伤害（肉盾机制）
+   * 处理黑液寄生虫损失 - 黑渊渗潮者优先承担伤害（肉盾机制）
    */
   private handleGoblinLoss(unit: BattleUnit, previousHealth: number, currentHealth: number): void {
     if (!unit.troops) return;
@@ -361,25 +361,25 @@ export class NewBattleSystem {
     const healthLoss = previousHealth - currentHealth;
     if (healthLoss <= 0) return;
 
-    // 计算哥布林提供的血量加成
+    // 计算黑液寄生虫提供的血量加成
     const goblinHealthBonus = this.calculateGoblinHealthBonus(unit);
     if (goblinHealthBonus <= 0) return;
 
-    // 计算损失比例（基于哥布林提供的血量）
+    // 计算损失比例（基于黑液寄生虫提供的血量）
     const lossRatio = healthLoss / goblinHealthBonus;
     const clampedLossRatio = Math.min(lossRatio, 1); // 限制最大损失比例为100%
 
-    // 优先损失普通哥布林（肉盾机制）
+    // 优先损失黑渊渗潮者（肉盾机制）
     let remainingLossRatio = clampedLossRatio;
 
-    // 1. 优先损失普通哥布林（承担更多伤害）
+    // 1. 优先损失黑渊渗潮者（承担更多伤害）
     if (unit.troops.normalGoblins && unit.troops.normalGoblins > 0) {
-      // 普通哥布林承担1.5倍的损失比例
+      // 黑渊渗潮者承担1.5倍的损失比例
       const normalLossRatio = Math.min(remainingLossRatio * 1.5, 1);
       const normalLoss = Math.floor(unit.troops.normalGoblins * normalLossRatio);
       unit.troops.normalGoblins = Math.max(0, unit.troops.normalGoblins - normalLoss);
 
-      // 如果普通哥布林全部损失，剩余损失由其他哥布林承担
+      // 如果黑渊渗潮者全部损失，剩余损失由其他黑液寄生虫承担
       if (unit.troops.normalGoblins === 0) {
         remainingLossRatio = Math.max(0, remainingLossRatio - normalLossRatio);
       } else {
@@ -387,7 +387,7 @@ export class NewBattleSystem {
       }
     }
 
-    // 2. 如果还有剩余损失，按比例损失其他哥布林
+    // 2. 如果还有剩余损失，按比例损失其他黑液寄生虫
     if (remainingLossRatio > 0) {
       if (unit.troops.warriorGoblins && unit.troops.warriorGoblins > 0) {
         const warriorLoss = Math.floor(unit.troops.warriorGoblins * remainingLossRatio);
@@ -406,37 +406,37 @@ export class NewBattleSystem {
     }
 
     console.log(
-      `单位 ${unit.name} 哥布林损失（肉盾机制），普通哥布林优先承担伤害，损失比例: ${(clampedLossRatio * 100).toFixed(1)}%，剩余血量: ${currentHealth}/${unit.maxHealth}`,
+      `单位 ${unit.name} 黑液寄生虫损失（肉盾机制），黑渊渗潮者优先承担伤害，损失比例: ${(clampedLossRatio * 100).toFixed(1)}%，剩余血量: ${currentHealth}/${unit.maxHealth}`,
     );
   }
 
   /**
-   * 计算哥布林提供的血量加成
+   * 计算黑液寄生虫提供的血量加成
    */
   private calculateGoblinHealthBonus(unit: BattleUnit): number {
     if (!unit.troops) return 0;
 
     let totalBonus = 0;
 
-    // 计算各种哥布林提供的血量加成
+    // 计算各种黑液寄生虫提供的血量加成
     if (unit.troops.normalGoblins && unit.troops.normalGoblins > 0) {
-      // 普通哥布林按0.5等级计算，血量加成较少
-      totalBonus += unit.troops.normalGoblins * 2; // 假设每个普通哥布林提供2点血量
+      // 黑渊渗潮者按0.5等级计算，血量加成较少
+      totalBonus += unit.troops.normalGoblins * 2; // 假设每个黑渊渗潮者提供2点血量
     }
 
     if (unit.troops.warriorGoblins && unit.troops.warriorGoblins > 0) {
-      // 战士哥布林按1等级计算
-      totalBonus += unit.troops.warriorGoblins * 5; // 假设每个战士哥布林提供5点血量
+      // 黑渊近卫按1等级计算
+      totalBonus += unit.troops.warriorGoblins * 5; // 假设每个黑渊近卫提供5点血量
     }
 
     if (unit.troops.shamanGoblins && unit.troops.shamanGoblins > 0) {
-      // 萨满哥布林按1等级计算
-      totalBonus += unit.troops.shamanGoblins * 4; // 假设每个萨满哥布林提供4点血量
+      // 黑渊圣女按1等级计算
+      totalBonus += unit.troops.shamanGoblins * 4; // 假设每个黑渊圣女提供4点血量
     }
 
     if (unit.troops.paladinGoblins && unit.troops.paladinGoblins > 0) {
-      // 圣骑士哥布林按1等级计算
-      totalBonus += unit.troops.paladinGoblins * 8; // 假设每个圣骑士哥布林提供8点血量
+      // 黑渊巫后按1等级计算
+      totalBonus += unit.troops.paladinGoblins * 8; // 假设每个黑渊巫后提供8点血量
     }
 
     return totalBonus;

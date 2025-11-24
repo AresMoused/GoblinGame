@@ -406,7 +406,7 @@ const loadAvailableCharacters = () => {
         (char: Character) =>
           ((char.status === 'surrendered' || char.status === 'player' || char.status === 'deployed') &&
             char.canCombat === true) ||
-          char.name === '哥布林之王',
+          char.name === '黑液寄生虫之王',
       );
       availableCharacters.value = characters;
       console.log('可用人物数据（已过滤不可战斗角色）:', characters);
@@ -452,7 +452,7 @@ const addCaptain = (captain: Captain) => {
   // 复制队长并初始化部队配置
   const newCaptain: Captain = {
     ...captain,
-    troops: { 普通哥布林: 0, 哥布林战士: 0, 哥布林萨满: 0, 哥布林圣骑士: 0 },
+    troops: { 黑渊渗潮者: 0, 黑渊近卫: 0, 黑渊圣女: 0, 黑渊巫后: 0 },
   };
 
   captainSlots.value[emptySlotIndex] = newCaptain;
@@ -633,26 +633,26 @@ const getMaxTroopCount = (type: string) => {
   const level = captain.level ?? Math.floor((captain.offspring ?? 0) / 10) ?? 1;
   const rating = captain.rating || 'C';
 
-  // 根据类型判断是普通哥布林还是特殊哥布林
-  const isNormalGoblin = type === '普通哥布林';
-  const isSpecialGoblin = ['哥布林战士', '哥布林萨满', '哥布林圣骑士'].includes(type);
+  // 根据类型判断是黑渊渗潮者还是特殊黑液寄生虫
+  const isNormalGoblin = type === '黑渊渗潮者';
+  const isSpecialGoblin = ['黑渊近卫', '黑渊圣女', '黑渊巫后'].includes(type);
 
   let levelLimit = 0;
 
   if (isNormalGoblin) {
-    // 普通哥布林：使用评级系数计算最大数量
+    // 黑渊渗潮者：使用评级系数计算最大数量
     levelLimit = calculateMaxNormalGoblins(level, rating);
   } else if (isSpecialGoblin) {
-    // 特殊哥布林：使用评级系数计算总数量，然后分配到各类型
+    // 特殊黑液寄生虫：使用评级系数计算总数量，然后分配到各类型
     const maxSpecialTotal = calculateMaxSpecialGoblins(level, rating);
 
-    // 计算已使用的特殊哥布林总数（从当前队长）
+    // 计算已使用的特殊黑液寄生虫总数（从当前队长）
     const usedSpecialTotal =
-      (captain.troops?.['哥布林战士'] || 0) +
-      (captain.troops?.['哥布林萨满'] || 0) +
-      (captain.troops?.['哥布林圣骑士'] || 0);
+      (captain.troops?.['黑渊近卫'] || 0) +
+      (captain.troops?.['黑渊圣女'] || 0) +
+      (captain.troops?.['黑渊巫后'] || 0);
 
-    // 剩余可用的特殊哥布林数量
+    // 剩余可用的特殊黑液寄生虫数量
     const remainingSpecial = maxSpecialTotal - usedSpecialTotal;
 
     // 获取当前类型已使用的数量
@@ -667,13 +667,13 @@ const getMaxTroopCount = (type: string) => {
     levelLimit = Math.floor(remainingLevels / levelCost);
   }
 
-  // 获取实际哥布林资源数量
+  // 获取实际黑液寄生虫资源数量
   const availableGoblins = getCurrentGoblinCount(type);
 
-  // 获取其他队长已使用的哥布林数量（不包括当前正在配置的队长）
+  // 获取其他队长已使用的黑液寄生虫数量（不包括当前正在配置的队长）
   const usedGoblins = getUsedGoblinCount(type);
 
-  // 计算可用的哥布林数量
+  // 计算可用的黑液寄生虫数量
   // 当前队长的最大可用数量 = 总数量 - 其他队长已使用的
   // 这样当当前队长调整滑块时，其他队长已使用的数量会被正确扣除
   const availableCount = Math.max(0, availableGoblins - usedGoblins);
@@ -681,7 +681,7 @@ const getMaxTroopCount = (type: string) => {
   // 返回等级限制和资源限制中的较小值（这是最大总数，不是还能增加的数量）
   const maxCount = Math.min(levelLimit, availableCount);
 
-  console.log(`计算最大哥布林数量 ${type}:`, {
+  console.log(`计算最大黑液寄生虫数量 ${type}:`, {
     类型: type,
     是否普通: isNormalGoblin,
     是否特殊: isSpecialGoblin,
@@ -724,10 +724,10 @@ const setTroopCount = (type: string, count: number) => {
 
   if (!currentConfigCaptain.value.troops) {
     currentConfigCaptain.value.troops = {
-      普通哥布林: 0,
-      哥布林战士: 0,
-      哥布林萨满: 0,
-      哥布林圣骑士: 0,
+      黑渊渗潮者: 0,
+      黑渊近卫: 0,
+      黑渊圣女: 0,
+      黑渊巫后: 0,
     };
   }
 
@@ -798,15 +798,15 @@ const getAttributeBonus = (attribute: string) => {
   return bonus;
 };
 
-// 哥布林类型等级消耗配置（直接使用中文名称）
+// 黑液寄生虫类型等级消耗配置（直接使用中文名称）
 const TROOP_LEVEL_COSTS: Record<string, number> = {
-  普通哥布林: 0.1, // 普通哥布林按0.1计算，可编制10倍数量
-  哥布林战士: 1,
-  哥布林萨满: 1,
-  哥布林圣骑士: 1,
+  黑渊渗潮者: 0.1, // 黑渊渗潮者按0.1计算，可编制10倍数量
+  黑渊近卫: 1,
+  黑渊圣女: 1,
+  黑渊巫后: 1,
 };
 
-// 获取当前哥布林数量
+// 获取当前黑液寄生虫数量
 const getCurrentGoblinCount = (goblinType: string) => {
   try {
     // 确保存档系统已初始化
@@ -815,38 +815,38 @@ const getCurrentGoblinCount = (goblinType: string) => {
       modularSaveManager.createNewGame();
     }
 
-    // 哥布林类型到资源ID的映射
+    // 黑液寄生虫类型到资源ID的映射
     const goblinResourceMapping: Record<string, string> = {
-      普通哥布林: 'normalGoblins',
-      哥布林战士: 'warriorGoblins',
-      哥布林萨满: 'shamanGoblins',
-      哥布林圣骑士: 'paladinGoblins',
+      黑渊渗潮者: 'normalGoblins',
+      黑渊近卫: 'warriorGoblins',
+      黑渊圣女: 'shamanGoblins',
+      黑渊巫后: 'paladinGoblins',
     };
 
     const resourceId = goblinResourceMapping[goblinType] || goblinType;
     const count =
       modularSaveManager.resources.value[resourceId as keyof typeof modularSaveManager.resources.value] || 0;
-    console.log(`获取哥布林数量 ${goblinType} (${resourceId}): ${count}`);
+    console.log(`获取黑液寄生虫数量 ${goblinType} (${resourceId}): ${count}`);
     return count;
   } catch (error) {
-    console.error('获取哥布林数量失败:', error);
+    console.error('获取黑液寄生虫数量失败:', error);
     return 0;
   }
 };
 
-// 获取其他队长已使用的哥布林数量
+// 获取其他队长已使用的黑液寄生虫数量
 const getUsedGoblinCount = (goblinType: string) => {
   try {
     let usedCount = 0;
 
-    // 遍历所有队长槽位，计算已使用的哥布林数量
+    // 遍历所有队长槽位，计算已使用的黑液寄生虫数量
     captainSlots.value.forEach(captain => {
       // 跳过当前正在配置的队长
       if (captain && captain.id === currentConfigCaptain.value?.id) {
         return;
       }
 
-      // 计算其他队长使用的该类型哥布林数量
+      // 计算其他队长使用的该类型黑液寄生虫数量
       if (captain && captain.troops) {
         const count = captain.troops[goblinType as keyof typeof captain.troops] || 0;
         usedCount += count;
@@ -856,7 +856,7 @@ const getUsedGoblinCount = (goblinType: string) => {
     console.log(`其他队长已使用的 ${goblinType} 数量: ${usedCount}`);
     return usedCount;
   } catch (error) {
-    console.error('获取已使用哥布林数量失败:', error);
+    console.error('获取已使用黑液寄生虫数量失败:', error);
     return 0;
   }
 };
@@ -1334,10 +1334,10 @@ const performAutoAssignment = () => {
 
       // 清空当前队长的部队配置
       captain.troops = {
-        普通哥布林: 0,
-        哥布林战士: 0,
-        哥布林萨满: 0,
-        哥布林圣骑士: 0,
+        黑渊渗潮者: 0,
+        黑渊近卫: 0,
+        黑渊圣女: 0,
+        黑渊巫后: 0,
       };
 
       // 获取队长等级和评级
@@ -1350,14 +1350,14 @@ const performAutoAssignment = () => {
       const maxNormalGoblins = calculateMaxNormalGoblins(captainLevel, captainRating);
       const maxSpecialGoblins = calculateMaxSpecialGoblins(captainLevel, captainRating);
 
-      console.log(`队长 ${captain.name} 最大普通哥布林: ${maxNormalGoblins}, 最大特殊哥布林: ${maxSpecialGoblins}`);
+      console.log(`队长 ${captain.name} 最大黑渊渗潮者: ${maxNormalGoblins}, 最大特殊黑液寄生虫: ${maxSpecialGoblins}`);
 
       // 判断队长类型（根据身份关键词和种族判断）
       const isMagicalCaptain = captain.unitType === 'magical';
 
       console.log(`队长 ${captain.name} 类型: ${isMagicalCaptain ? '魔法型' : '物理型'}`);
 
-      // 先分配特殊哥布林
+      // 先分配特殊黑液寄生虫
       if (isMagicalCaptain) {
         // 魔法型队长：优先萨满→圣骑士→战士
         assignSpecialGoblinsForMagicalCaptain(captain, maxSpecialGoblins);
@@ -1366,13 +1366,13 @@ const performAutoAssignment = () => {
         assignSpecialGoblinsForPhysicalCaptain(captain, maxSpecialGoblins);
       }
 
-      // 用普通哥布林填充
-      const availableNormalGoblins = getAvailableGoblinCount('普通哥布林');
+      // 用黑渊渗潮者填充
+      const availableNormalGoblins = getAvailableGoblinCount('黑渊渗潮者');
       const actualNormalGoblinCount = Math.min(maxNormalGoblins, availableNormalGoblins);
 
       if (actualNormalGoblinCount > 0) {
-        captain.troops['普通哥布林'] = actualNormalGoblinCount;
-        console.log(`队长 ${captain.name} 分配普通哥布林: ${actualNormalGoblinCount}`);
+        captain.troops['黑渊渗潮者'] = actualNormalGoblinCount;
+        console.log(`队长 ${captain.name} 分配黑渊渗潮者: ${actualNormalGoblinCount}`);
       }
 
       // 更新队长槽位
@@ -1401,101 +1401,101 @@ const performAutoAssignment = () => {
   }
 };
 
-// 为魔法型队长分配特殊哥布林
+// 为魔法型队长分配特殊黑液寄生虫
 const assignSpecialGoblinsForMagicalCaptain = (captain: Captain, maxSpecialGoblins: number): void => {
-  console.log(`为魔法型队长 ${captain.name} 分配特殊哥布林，最大数量: ${maxSpecialGoblins}`);
+  console.log(`为魔法型队长 ${captain.name} 分配特殊黑液寄生虫，最大数量: ${maxSpecialGoblins}`);
 
   // 确保 troops 对象存在
   if (!captain.troops) {
     captain.troops = {
-      普通哥布林: 0,
-      哥布林战士: 0,
-      哥布林萨满: 0,
-      哥布林圣骑士: 0,
+      黑渊渗潮者: 0,
+      黑渊近卫: 0,
+      黑渊圣女: 0,
+      黑渊巫后: 0,
     };
   }
 
   let remainingSpecial = maxSpecialGoblins;
 
-  // 1. 优先分配哥布林萨满（分配50%）
+  // 1. 优先分配黑渊圣女（分配50%）
   if (remainingSpecial > 0) {
-    const availableShamans = getAvailableGoblinCount('哥布林萨满');
+    const availableShamans = getAvailableGoblinCount('黑渊圣女');
     const shamanCount = Math.min(Math.floor(maxSpecialGoblins * 0.5), availableShamans, remainingSpecial);
 
     if (shamanCount > 0) {
-      captain.troops['哥布林萨满'] = shamanCount;
+      captain.troops['黑渊圣女'] = shamanCount;
       remainingSpecial -= shamanCount;
-      console.log(`分配哥布林萨满: ${shamanCount}, 剩余特殊哥布林: ${remainingSpecial}`);
+      console.log(`分配黑渊圣女: ${shamanCount}, 剩余特殊黑液寄生虫: ${remainingSpecial}`);
     }
   }
 
-  // 2. 分配哥布林圣骑士（分配30%）
+  // 2. 分配黑渊巫后（分配30%）
   if (remainingSpecial > 0) {
-    const availablePaladins = getAvailableGoblinCount('哥布林圣骑士');
+    const availablePaladins = getAvailableGoblinCount('黑渊巫后');
     const paladinCount = Math.min(Math.floor(maxSpecialGoblins * 0.3), availablePaladins, remainingSpecial);
 
     if (paladinCount > 0) {
-      captain.troops['哥布林圣骑士'] = paladinCount;
+      captain.troops['黑渊巫后'] = paladinCount;
       remainingSpecial -= paladinCount;
-      console.log(`分配哥布林圣骑士: ${paladinCount}, 剩余特殊哥布林: ${remainingSpecial}`);
+      console.log(`分配黑渊巫后: ${paladinCount}, 剩余特殊黑液寄生虫: ${remainingSpecial}`);
     }
   }
 
-  // 3. 分配哥布林战士（分配剩余部分）
+  // 3. 分配黑渊近卫（分配剩余部分）
   if (remainingSpecial > 0) {
-    const availableWarriors = getAvailableGoblinCount('哥布林战士');
+    const availableWarriors = getAvailableGoblinCount('黑渊近卫');
     const warriorCount = Math.min(remainingSpecial, availableWarriors);
 
     if (warriorCount > 0) {
-      captain.troops['哥布林战士'] = warriorCount;
+      captain.troops['黑渊近卫'] = warriorCount;
       remainingSpecial -= warriorCount;
-      console.log(`分配哥布林战士: ${warriorCount}, 剩余特殊哥布林: ${remainingSpecial}`);
+      console.log(`分配黑渊近卫: ${warriorCount}, 剩余特殊黑液寄生虫: ${remainingSpecial}`);
     }
   }
 };
 
-// 为物理型队长分配特殊哥布林
+// 为物理型队长分配特殊黑液寄生虫
 const assignSpecialGoblinsForPhysicalCaptain = (captain: Captain, maxSpecialGoblins: number): void => {
-  console.log(`为物理型队长 ${captain.name} 分配特殊哥布林，最大数量: ${maxSpecialGoblins}`);
+  console.log(`为物理型队长 ${captain.name} 分配特殊黑液寄生虫，最大数量: ${maxSpecialGoblins}`);
 
   // 确保 troops 对象存在
   if (!captain.troops) {
     captain.troops = {
-      普通哥布林: 0,
-      哥布林战士: 0,
-      哥布林萨满: 0,
-      哥布林圣骑士: 0,
+      黑渊渗潮者: 0,
+      黑渊近卫: 0,
+      黑渊圣女: 0,
+      黑渊巫后: 0,
     };
   }
 
   let remainingSpecial = maxSpecialGoblins;
 
-  // 1. 优先分配哥布林圣骑士（分配60%）
+  // 1. 优先分配黑渊巫后（分配60%）
   if (remainingSpecial > 0) {
-    const availablePaladins = getAvailableGoblinCount('哥布林圣骑士');
+    const availablePaladins = getAvailableGoblinCount('黑渊巫后');
     const paladinCount = Math.min(Math.floor(maxSpecialGoblins * 0.6), availablePaladins, remainingSpecial);
 
     if (paladinCount > 0) {
-      captain.troops['哥布林圣骑士'] = paladinCount;
+      captain.troops['黑渊巫后'] = paladinCount;
       remainingSpecial -= paladinCount;
-      console.log(`分配哥布林圣骑士: ${paladinCount}, 剩余特殊哥布林: ${remainingSpecial}`);
+      console.log(`分配黑渊巫后: ${paladinCount}, 剩余特殊黑液寄生虫: ${remainingSpecial}`);
     }
   }
 
-  // 2. 分配哥布林战士（分配剩余部分）
+  // 2. 分配黑渊近卫（分配剩余部分）
   if (remainingSpecial > 0) {
-    const availableWarriors = getAvailableGoblinCount('哥布林战士');
+    const availableWarriors = getAvailableGoblinCount('黑渊近卫');
     const warriorCount = Math.min(remainingSpecial, availableWarriors);
 
     if (warriorCount > 0) {
-      captain.troops['哥布林战士'] = warriorCount;
+      captain.troops['黑渊近卫'] = warriorCount;
       remainingSpecial -= warriorCount;
-      console.log(`分配哥布林战士: ${warriorCount}, 剩余特殊哥布林: ${remainingSpecial}`);
+      console.log(`分配黑渊近卫: ${warriorCount}, 剩余特殊黑液寄生虫: ${remainingSpecial}`);
     }
   }
 };
 
-// 获取可用的哥布林数量（考虑其他队长已使用的数量）
+// 获取可用的黑液寄生虫数量（考虑其他队长已使用的数量）
 const getAvailableGoblinCount = (goblinType: string): number => {
   const totalCount = getCurrentGoblinCount(goblinType);
   const usedCount = getUsedGoblinCount(goblinType);
@@ -1505,7 +1505,7 @@ const getAvailableGoblinCount = (goblinType: string): number => {
   return availableCount;
 };
 
-// 获取总已编制的哥布林数量（包含当前正在配置的队长）
+// 获取总已编制的黑液寄生虫数量（包含当前正在配置的队长）
 const getTotalUsedGoblinCount = (goblinType: string): number => {
   // 其他队长已使用的数量
   const otherCaptainsUsed = getUsedGoblinCount(goblinType);
@@ -1515,7 +1515,7 @@ const getTotalUsedGoblinCount = (goblinType: string): number => {
   return otherCaptainsUsed + currentCaptainUsed;
 };
 
-// 获取可用哥布林数量（用于显示，包含当前正在配置的队长）
+// 获取可用黑液寄生虫数量（用于显示，包含当前正在配置的队长）
 const getAvailableGoblinCountForDisplay = (goblinType: string): number => {
   const totalCount = getCurrentGoblinCount(goblinType);
   const totalUsed = getTotalUsedGoblinCount(goblinType);

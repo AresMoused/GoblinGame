@@ -21,11 +21,11 @@ export class BreedingService {
     const canBreedAll = character.rating === 'S' || character.rating === 'A';
     const canBreedWarrior = canBreedAll || ['B', 'C', 'D'].includes(character.rating);
 
-    // 普通哥布林 (所有角色都可以生育)
+    // 黑渊渗潮者 (所有角色都可以生育)
     const normalGoblins = this.calculateGoblinCount(5, 10, totalBonus);
     if (normalGoblins > 0) {
       records.push({
-        type: '普通哥布林',
+        type: '黑渊渗潮者',
         count: normalGoblins,
         date: new Date(),
         round: currentRound,
@@ -33,12 +33,12 @@ export class BreedingService {
       totalOffspring += normalGoblins;
     }
 
-    // 哥布林战士 (B级以上角色可以生育)
+    // 黑渊近卫 (B级以上角色可以生育)
     if (canBreedWarrior) {
       const warriorGoblins = this.calculateGoblinCount(3, 5, totalBonus);
       if (warriorGoblins > 0) {
         records.push({
-          type: '哥布林战士',
+          type: '黑渊近卫',
           count: warriorGoblins,
           date: new Date(),
           round: currentRound,
@@ -47,12 +47,12 @@ export class BreedingService {
       }
     }
 
-    // 哥布林萨满 (只有S和A级角色可以生育)
+    // 黑渊圣女 (只有S和A级角色可以生育)
     if (canBreedAll) {
       const shamanGoblins = this.calculateGoblinCount(2, 4, totalBonus);
       if (shamanGoblins > 0) {
         records.push({
-          type: '哥布林萨满',
+          type: '黑渊圣女',
           count: shamanGoblins,
           date: new Date(),
           round: currentRound,
@@ -61,12 +61,12 @@ export class BreedingService {
       }
     }
 
-    // 哥布林圣骑士 (只有S和A级角色可以生育)
+    // 黑渊巫后 (只有S和A级角色可以生育)
     if (canBreedAll) {
       const paladinGoblins = this.calculateGoblinCount(1, 3, totalBonus);
       if (paladinGoblins > 0) {
         records.push({
-          type: '哥布林圣骑士',
+          type: '黑渊巫后',
           count: paladinGoblins,
           date: new Date(),
           round: currentRound,
@@ -105,13 +105,13 @@ export class BreedingService {
     switch (rating) {
       case 'S':
       case 'A':
-        return '可生育：普通哥布林、哥布林战士、哥布林萨满、哥布林圣骑士';
+        return '可生育：黑渊渗潮者、黑渊近卫、黑渊圣女、黑渊巫后';
       case 'B':
       case 'C':
       case 'D':
-        return '可生育：普通哥布林、哥布林战士';
+        return '可生育：黑渊渗潮者、黑渊近卫';
       default:
-        return '可生育：普通哥布林';
+        return '可生育：黑渊渗潮者';
     }
   }
 
@@ -133,10 +133,10 @@ export class BreedingService {
    */
   static getBreedingStats(records: BreedingRecord[]): { [key in GoblinType]: number } {
     const stats: { [key in GoblinType]: number } = {
-      普通哥布林: 0,
-      哥布林战士: 0,
-      哥布林萨满: 0,
-      哥布林圣骑士: 0,
+      黑渊渗潮者: 0,
+      黑渊近卫: 0,
+      黑渊圣女: 0,
+      黑渊巫后: 0,
     };
 
     records.forEach(record => {
@@ -172,7 +172,7 @@ export class BreedingService {
 
     const messages: string[] = [];
 
-    // 降低奴隶生育率：每个奴隶生育2-4个普通哥布林（原来是5-10个）
+    // 降低奴隶生育率：每个奴隶生育2-4个黑渊渗潮者（原来是5-10个）
     const goblinsPerSlave = Math.floor(Math.random() * 3) + 2; // 2-4个
     const totalNewGoblins = slaveCount * goblinsPerSlave;
 
@@ -181,7 +181,7 @@ export class BreedingService {
     const deadSlaves = Math.floor((slaveCount * deathRate) / 100);
     const remainingSlaves = slaveCount - deadSlaves;
 
-    messages.push(`奴隶们生育了 ${totalNewGoblins} 个普通哥布林`);
+    messages.push(`奴隶们生育了 ${totalNewGoblins} 个黑渊渗潮者`);
     messages.push(`${deadSlaves} 个奴隶死亡 (死亡率: ${deathRate.toFixed(1)}%)`);
     messages.push(`剩余奴隶: ${remainingSlaves} 个`);
 

@@ -233,21 +233,21 @@
         </div>
         <div class="modal-content">
           <div v-if="selectedUnit?.troops" class="troops-list">
-            <!-- 哥布林部队（我方单位） -->
+            <!-- 黑渊渗潮者部队（我方单位） -->
             <div v-if="(selectedUnit.troops.normalGoblins || 0) > 0" class="troop-item">
-              <span class="troop-name">🟢 普通哥布林:</span>
+              <span class="troop-name">🟢 黑渊渗潮者:</span>
               <span class="troop-count">{{ selectedUnit.troops.normalGoblins || 0 }}</span>
             </div>
             <div v-if="(selectedUnit.troops.warriorGoblins || 0) > 0" class="troop-item">
-              <span class="troop-name">⚔️ 哥布林战士:</span>
+              <span class="troop-name">⚔️ 黑渊近卫:</span>
               <span class="troop-count">{{ selectedUnit.troops.warriorGoblins || 0 }}</span>
             </div>
             <div v-if="(selectedUnit.troops.shamanGoblins || 0) > 0" class="troop-item">
-              <span class="troop-name">🔮 哥布林萨满:</span>
+              <span class="troop-name">🔮 黑渊圣女:</span>
               <span class="troop-count">{{ selectedUnit.troops.shamanGoblins || 0 }}</span>
             </div>
             <div v-if="(selectedUnit.troops.paladinGoblins || 0) > 0" class="troop-item">
-              <span class="troop-name">✨ 哥布林圣骑士:</span>
+              <span class="troop-name">✨ 黑渊巫后:</span>
               <span class="troop-count">{{ selectedUnit.troops.paladinGoblins || 0 }}</span>
             </div>
 
@@ -635,7 +635,7 @@ const getActionClass = (action: any) => {
 const getTotalTroops = (unit: BattleUnit) => {
   if (!unit.troops) return 0;
 
-  // 哥布林部队（我方单位）
+  // 黑渊渗潮者部队（我方单位）
   if (unit.troops.normalGoblins !== undefined) {
     return (
       (unit.troops.normalGoblins || 0) +
@@ -787,7 +787,7 @@ const confirmRewards = async () => {
     await updateHeroStatus(rewardsData.value.hero);
   }
 
-  // 更新资源世界书（包含哥布林损失和大陆征服进度）
+  // 更新资源世界书（包含黑渊渗潮者损失和大陆征服进度）
   try {
     console.log('🔍 [战斗界面] 开始更新资源世界书...');
     const currentResources = {
@@ -1056,7 +1056,7 @@ const autoExecuteBattle = () => {
 
         console.log('战斗结果:', battleResult.value);
 
-        // 同步哥布林损失到资源系统
+        // 同步黑渊渗潮者损失到资源系统
         syncGoblinLossesToResources();
 
         // 发送战斗完成事件
@@ -1267,9 +1267,9 @@ const saveInitialTroopState = () => {
   console.log('初始部队状态已保存:', initialTroopState.value);
 };
 
-// 同步哥布林损失到资源系统
+// 同步黑渊渗潮者损失到资源系统
 const syncGoblinLossesToResources = () => {
-  console.log('开始同步哥布林损失到资源系统');
+  console.log('开始同步黑渊渗潮者损失到资源系统');
 
   // 计算总损失
   let totalNormalLoss = 0;
@@ -1310,7 +1310,7 @@ const syncGoblinLossesToResources = () => {
 
   // 使用模块化存档服务同步资源
   try {
-    // 消耗损失的哥布林
+    // 消耗损失的黑渊渗潮者
     if (totalNormalLoss > 0) {
       modularSaveManager.consumeResource('normalGoblins', totalNormalLoss, '战斗损失');
     }
@@ -1324,7 +1324,7 @@ const syncGoblinLossesToResources = () => {
       modularSaveManager.consumeResource('paladinGoblins', totalPaladinLoss, '战斗损失');
     }
 
-    console.log('哥布林损失已同步到存档系统:', {
+    console.log('黑渊渗潮者损失已同步到存档系统:', {
       normalLoss: totalNormalLoss,
       warriorLoss: totalWarriorLoss,
       shamanLoss: totalShamanLoss,
@@ -1334,13 +1334,13 @@ const syncGoblinLossesToResources = () => {
     // 显示损失提示
     const totalLoss = totalNormalLoss + totalWarriorLoss + totalShamanLoss + totalPaladinLoss;
     if (totalLoss > 0) {
-      toastRef.value?.warning(`💀 战斗中损失了 ${totalLoss} 个哥布林！`, {
+      toastRef.value?.warning(`💀 战斗中损失了 ${totalLoss} 个黑渊渗潮者！`, {
         title: '部队损失',
         duration: 5000,
       });
     }
   } catch (error) {
-    console.error('同步哥布林损失失败:', error);
+    console.error('同步黑渊渗潮者损失失败:', error);
   }
 };
 
@@ -1365,7 +1365,7 @@ const performRetreat = async () => {
 
   // 注意：撤退不返还行动力，因为行动力已经消耗了
 
-  // 更新资源世界书（包含哥布林损失）
+  // 更新资源世界书（包含黑渊渗潮者损失）
   try {
     console.log('🔍 [战斗界面] 撤退时更新资源世界书...');
     const currentResources = {

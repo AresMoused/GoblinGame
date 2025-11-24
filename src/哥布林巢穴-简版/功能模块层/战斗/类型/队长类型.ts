@@ -31,10 +31,10 @@ export interface Captain {
   isUsed: boolean;
   /** 部队编制信息 */
   troops?: {
-    普通哥布林: number;
-    哥布林战士: number;
-    哥布林萨满: number;
-    哥布林圣骑士: number;
+    黑渊渗潮者: number;
+    黑渊近卫: number;
+    黑渊圣女: number;
+    黑渊巫后: number;
   };
   /** 原始属性（用于恢复） */
   originalAttributes?: {

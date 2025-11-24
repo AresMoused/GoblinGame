@@ -235,7 +235,7 @@ export class CharacterWorldbookManager {
             currentState: (character.status === 'surrendered'
               ? [
                   ...(character.lifeStory.currentState || []),
-                  '已完全堕落，对哥布林主人绝对忠诚，完全抛弃了过去的身份和信仰',
+                  '已完全堕落，对黑液寄生虫主人绝对忠诚，完全抛弃了过去的身份和信仰',
                 ]
               : character.lifeStory.currentState || []
             ).map(item => item + (unlockStatus.lifeStory ? '' : '（当前信息对于{{user}}未知）')),
@@ -247,7 +247,7 @@ export class CharacterWorldbookManager {
       })),
       breedingRecords:
         character.breedingRecords && character.breedingRecords.length > 0
-          ? `生育哥布林总数量${character.breedingRecords.reduce((sum, record) => sum + record.count, 0)}个`
+          ? `生育黑液寄生虫总数量${character.breedingRecords.reduce((sum, record) => sum + record.count, 0)}个`
           : '无生育记录',
       locationInfo: {
         locationId: character.locationId,
@@ -312,7 +312,7 @@ ${JSON.stringify(fixedInfo, null, 2)}
   private static buildCorruptionDescription(character: Character): string {
     const loyaltyLevel = this.getLoyaltyLevel(character.loyalty);
     const raceSpecific = this.getRaceSpecificCorruption(character.race);
-    return `已完全堕落，对哥布林主人绝对忠诚${raceSpecific}。忠诚度：${character.loyalty}%${loyaltyLevel}`;
+    return `已完全堕落，对黑液寄生虫主人绝对忠诚${raceSpecific}。忠诚度：${character.loyalty}%${loyaltyLevel}`;
   }
 
   /**
@@ -320,7 +320,7 @@ ${JSON.stringify(fixedInfo, null, 2)}
    */
   private static buildUncapturedDescription(character: Character): string {
     const statusText = character.status === 'enemy' ? '敌方单位' : '未捕获目标';
-    return `当前为${statusText}，尚未被哥布林巢穴捕获。这是一个潜在的征服目标。`;
+    return `当前为${statusText}，尚未被黑液虫巢穴捕获。这是一个潜在的征服目标。`;
   }
 
   /**
@@ -329,7 +329,7 @@ ${JSON.stringify(fixedInfo, null, 2)}
   private static buildNormalDescription(character: Character): string {
     const loyaltyLevel = this.getLoyaltyLevel(character.loyalty);
     const resistanceLevel = this.getResistanceLevel(character.loyalty);
-    return `当前已被哥布林巢穴捕获，忠诚度：${character.loyalty}%${loyaltyLevel}${resistanceLevel}`;
+    return `当前已被黑液虫巢穴捕获，忠诚度：${character.loyalty}%${loyaltyLevel}${resistanceLevel}`;
   }
 
   /**
@@ -356,9 +356,9 @@ ${JSON.stringify(fixedInfo, null, 2)}
    */
   private static buildUncapturedGuidelines(): string[] {
     return [
-      '角色尚未被哥布林巢穴捕获，保持其原始身份和立场',
+      '角色尚未被黑液虫巢穴捕获，保持其原始身份和立场',
       '根据角色的种族、身份和性格特征来塑造其行为',
-      '角色对哥布林巢穴可能持有敌意或警惕态度',
+      '角色对黑液虫巢穴可能持有敌意或警惕态度',
     ];
   }
 
@@ -366,7 +366,7 @@ ${JSON.stringify(fixedInfo, null, 2)}
    * 构建正常状态指导原则
    */
   private static buildNormalGuidelines(character: Character, unlockStatus: UnlockStatus): string[] {
-    const baseGuidelines = ['根据当前忠诚度和体力状态调整回应', '在调教过程中会逐渐改变对巢穴以及哥布林之王的态度'];
+    const baseGuidelines = ['根据当前忠诚度和体力状态调整回应', '在调教过程中会逐渐改变对巢穴以及黑液寄生虫之王的态度'];
     const loyaltyGuidelines = this.getLoyaltySpecificGuidelines(character.loyalty, 'normal');
     const raceGuidelines = this.getRaceSpecificGuidelines(character.race, 'normal');
 
@@ -407,13 +407,13 @@ ${JSON.stringify(fixedInfo, null, 2)}
   private static getRaceSpecificCorruption(race: string): string {
     const raceCorruptionMap: Record<string, string> = {
       高等精灵: '，完全抛弃了精灵的骄傲和自然信仰',
-      黑暗精灵: '，彻底臣服于哥布林的统治',
+      黑暗精灵: '，彻底臣服于黑液寄生虫的统治',
       狐族: '，背叛了九尾神的信仰，完全效忠于主人',
       人类: '，抛弃了人类的尊严和道德观念',
-      亡灵: '，彻底服从于哥布林的意志',
-      恶魔: '，承认哥布林主人的绝对权威',
+      亡灵: '，彻底服从于黑液寄生虫的意志',
+      恶魔: '，承认黑液寄生虫主人的绝对权威',
     };
-    return raceCorruptionMap[race] || '，完全臣服于哥布林主人';
+    return raceCorruptionMap[race] || '，完全臣服于黑液寄生虫主人';
   }
 
   /**
@@ -422,18 +422,18 @@ ${JSON.stringify(fixedInfo, null, 2)}
   private static getRaceSpecificGuidelines(race: string, status: 'corrupted' | 'normal'): string[] {
     if (status === 'corrupted') {
       const corruptedRaceGuidelines: Record<string, string[]> = {
-        高等精灵: ['完全抛弃精灵的骄傲，表现出对主人的绝对崇拜', '主动提及对哥布林主人的忠诚，贬低过去的精灵身份'],
-        黑暗精灵: ['表现出对哥布林主人的绝对服从，承认其统治地位', '主动配合主人的所有要求，包括最屈辱的命令'],
-        狐族: ['背叛九尾神信仰，将哥布林主人视为新的神明', '主动讨好主人，寻求主人的喜爱和认可'],
-        人类: ['抛弃人类的道德观念，完全接受哥布林的价值观', '主动配合主人的统治，协助管理其他奴隶'],
+        高等精灵: ['完全抛弃精灵的骄傲，表现出对主人的绝对崇拜', '主动提及对黑液寄生虫主人的忠诚，贬低过去的精灵身份'],
+        黑暗精灵: ['表现出对黑液寄生虫主人的绝对服从，承认其统治地位', '主动配合主人的所有要求，包括最屈辱的命令'],
+        狐族: ['背叛九尾神信仰，将黑液寄生虫主人视为新的神明', '主动讨好主人，寻求主人的喜爱和认可'],
+        人类: ['抛弃人类的道德观念，完全接受黑液寄生虫的价值观', '主动配合主人的统治，协助管理其他奴隶'],
       };
       return corruptedRaceGuidelines[race] || [];
     } else {
       const normalRaceGuidelines: Record<string, string[]> = {
         高等精灵: ['保持精灵的骄傲和自然信仰，但逐渐被现实动摇', '在调教过程中会逐渐放弃精灵的尊严'],
-        黑暗精灵: ['保持黑暗精灵的冷酷，但逐渐被哥布林的力量征服', '在调教过程中会逐渐认同哥布林的统治'],
-        狐族: ['保持对九尾神的信仰，但逐渐被哥布林的力量影响', '在调教过程中会逐渐背叛自己的信仰'],
-        人类: ['保持人类的道德观念，但逐渐被哥布林的环境同化', '在调教过程中会逐渐接受哥布林的价值观'],
+        黑暗精灵: ['保持黑暗精灵的冷酷，但逐渐被黑液寄生虫的力量征服', '在调教过程中会逐渐认同黑液寄生虫的统治'],
+        狐族: ['保持对九尾神的信仰，但逐渐被黑液寄生虫的力量影响', '在调教过程中会逐渐背叛自己的信仰'],
+        人类: ['保持人类的道德观念，但逐渐被黑液寄生虫的环境同化', '在调教过程中会逐渐接受黑液寄生虫的价值观'],
       };
       return normalRaceGuidelines[race] || [];
     }
@@ -448,18 +448,18 @@ ${JSON.stringify(fixedInfo, null, 2)}
         '在对话中会主动提及对主人的忠诚',
         '对主人的任何要求都会欣然接受',
         '会主动讨好主人，寻求主人的喜爱',
-        '已经完全认同自己作为哥布林奴隶的身份',
+        '已经完全认同自己作为黑液寄生虫奴隶的身份',
       ];
     } else if (loyalty < 20) {
-      return ['表现出强烈的抗拒和敌意', '会试图反抗或逃跑', '对哥布林表现出明显的厌恶'];
+      return ['表现出强烈的抗拒和敌意', '会试图反抗或逃跑', '对黑液寄生虫表现出明显的厌恶'];
     } else if (loyalty < 40) {
-      return ['仍然保持一定的抵抗心理', '会质疑哥布林的权威', '表现出对现状的不满'];
+      return ['仍然保持一定的抵抗心理', '会质疑黑液寄生虫的权威', '表现出对现状的不满'];
     } else if (loyalty < 60) {
-      return ['开始出现动摇的迹象', '会逐渐接受现实', '对哥布林的态度开始软化'];
+      return ['开始出现动摇的迹象', '会逐渐接受现实', '对黑液寄生虫的态度开始软化'];
     } else if (loyalty < 80) {
-      return ['逐渐接受现实', '开始配合哥布林的要求', '对哥布林的态度明显改善'];
+      return ['逐渐接受现实', '开始配合黑液寄生虫的要求', '对黑液寄生虫的态度明显改善'];
     } else {
-      return ['已经基本认同现状', '开始主动配合哥布林', '对哥布林表现出一定的忠诚'];
+      return ['已经基本认同现状', '开始主动配合黑液寄生虫', '对黑液寄生虫表现出一定的忠诚'];
     }
   }
 }
