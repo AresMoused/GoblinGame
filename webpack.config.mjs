@@ -1,37 +1,31 @@
-import { globSync } from 'glob';
-import HtmlInlineScriptWebpackPlugin from 'html-inline-script-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import fs from 'node:fs';
-import { createRequire } from 'node:module';
 import path from 'node:path';
-import url from 'node:url';
-import RemarkHTML from 'remark-html';
+import { fileURLToPath } from 'node:url';
 import { Server } from 'socket.io';
-import TerserPlugin from 'terser-webpack-plugin';
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import unpluginAutoImport from 'unplugin-auto-import/webpack';
-import { VueUseComponentsResolver, VueUseDirectiveResolver } from 'unplugin-vue-components/resolvers';
-import unpluginVueComponents from 'unplugin-vue-components/webpack';
-import { VueLoaderPlugin } from 'vue-loader';
-import webpack from 'webpack';
-import WebpackObfuscator from 'webpack-obfuscator';
-const require = createRequire(import.meta.url);
-const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 
-const __filename = url.fileURLToPath(import.meta.url);
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-interface Config {
-  port: number;
-  entries: Entry[];
-}
-interface Entry {
-  script: string;
-  html?: string;
-}
+// Declare variables for dynamically imported modules
+let HtmlInlineScriptWebpackPlugin;
+let HtmlWebpackPlugin;
+let MiniCssExtractPlugin;
+let RemarkHTML;
+let TerserPlugin;
+let TsconfigPathsPlugin;
+let unpluginAutoImport;
+let VueUseComponentsResolver;
+let VueUseDirectiveResolver;
+let unpluginVueComponents;
+let VueLoaderPlugin;
+let webpack;
+let WebpackObfuscator;
+let HTMLInlineCSSWebpackPlugin;
 
-function parse_entry(script_file: string) {
+const PORT = 6621;
+
+function parse_entry(script_file) {
   const html = path.join(path.dirname(script_file), 'index.html');
   if (fs.existsSync(html)) {
     return { script: script_file, html };
@@ -39,7 +33,7 @@ function parse_entry(script_file: string) {
   return { script: script_file };
 }
 
-function common_path(lhs: string, rhs: string) {
+function common_path(lhs, rhs) {
   const lhs_parts = lhs.split(path.sep);
   const rhs_parts = rhs.split(path.sep);
   for (let i = 0; i < Math.min(lhs_parts.length, rhs_parts.length); i++) {
@@ -50,13 +44,61 @@ function common_path(lhs: string, rhs: string) {
   return lhs_parts.join(path.sep);
 }
 
-function glob_script_files() {
-  const files: string[] = globSync(`src/**/index.{ts,js}`).filter(
-    (file: string) => process.env.CI !== 'true' || !fs.readFileSync(path.join(__dirname, file)).includes('@no-ci'),
+function getAllFiles(dirPath, arrayOfFiles = []) {
+  console.log(`[Debug] Scanning directory: ${dirPath}`);
+  let files = [];
+  try {
+    files = fs.readdirSync(dirPath);
+  } catch (e) {
+    console.error(`[Error] Failed to read directory ${dirPath}:`, e);
+    return arrayOfFiles;
+  }
+
+  files.forEach((file) => {
+    const fullPath = path.join(dirPath, file);
+    let stat;
+    try {
+      stat = fs.statSync(fullPath);
+    } catch (e) {
+      console.error(`[Error] Failed to stat ${fullPath}:`, e);
+      return;
+    }
+
+    if (stat.isDirectory()) {
+      arrayOfFiles = getAllFiles(fullPath, arrayOfFiles);
+    } else {
+      if (file === 'index.ts' || file === 'index.js') {
+        console.log(`[Debug] Match found: ${fullPath}`);
+        arrayOfFiles.push(fullPath);
+      }
+    }
+  });
+
+  return arrayOfFiles;
+}
+
+async function glob_script_files() {
+  // Use manual fs walk instead of glob
+  const srcDir = path.join(process.cwd(), 'src');
+  let files = [];
+  
+  if (fs.existsSync(srcDir)) {
+    files = getAllFiles(srcDir);
+  } else {
+    console.warn(`[Warning] src directory not found at ${srcDir}`);
+  }
+
+  // Convert absolute paths to relative 'src/...' format
+  files = files.map(f => path.relative(process.cwd(), f));
+
+  console.log(`[Debug] Found files via fs walk: ${JSON.stringify(files)}`);
+
+  files = files.filter(
+    (file) => process.env.CI !== 'true' || !fs.readFileSync(path.join(__dirname, file)).includes('@no-ci'),
   );
 
-  const results: string[] = [];
-  const handle = (file: string) => {
+  const results = [];
+  const handle = (file) => {
     const file_dirname = path.dirname(file);
     for (const [index, result] of results.entries()) {
       const result_dirname = path.dirname(result);
@@ -75,16 +117,11 @@ function glob_script_files() {
   return results;
 }
 
-const config: Config = {
-  port: 6621,
-  entries: glob_script_files().map(parse_entry),
-};
-
-let io: Server;
-function watch_it(compiler: webpack.Compiler) {
+let io;
+function watch_it(compiler) {
   if (compiler.options.watch) {
     if (!io) {
-      const port = config.port ?? 6621;
+      const port = PORT;
       io = new Server(port, { cors: { origin: '*' } });
       console.info(`[Listener] 已启动酒馆监听服务, 正在监听: http://0.0.0.0:${port}`);
       io.on('connect', socket => {
@@ -103,13 +140,13 @@ function watch_it(compiler: webpack.Compiler) {
   }
 }
 
-function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Configuration {
+function parse_configuration(entry) {
   const should_obfuscate = fs.readFileSync(path.join(__dirname, entry.script), 'utf-8').includes('@obfuscate');
   const script_filepath = path.parse(entry.script);
 
   // 读取版本号和推送设置
-  let frontend_version: string | undefined;
-  let push_index_html: boolean = false;
+  let frontend_version;
+  let push_index_html = false;
   try {
     const version_file = path.join(__dirname, path.dirname(entry.script), 'version.ts');
     if (fs.existsSync(version_file)) {
@@ -142,7 +179,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
     target: 'browserslist',
     output: {
       devtoolNamespace: 'tavern_helper_template',
-      devtoolModuleFilenameTemplate: info => {
+      devtoolModuleFilenameTemplate: (info) => {
         const resource_path = decodeURIComponent(info.resourcePath.replace(/^\.\//, ''));
         const is_direct = info.allLoaders === '';
         const is_vue_script =
@@ -275,7 +312,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
             },
           ].concat(
             entry.html === undefined
-              ? <any[]>[
+              ? [
                   {
                     test: /\.vue\.s(a|c)ss$/,
                     use: [
@@ -311,7 +348,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
                     exclude: /node_modules/,
                   },
                 ]
-              : <any[]>[
+              : [
                   {
                     test: /\.s(a|c)ss$/,
                     use: [
@@ -328,6 +365,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
                       MiniCssExtractPlugin.loader,
                       { loader: 'css-loader', options: { url: false } },
                       'postcss-loader',
+                      'sass-loader',
                     ],
                     exclude: /node_modules/,
                   },
@@ -350,7 +388,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
       ? [new MiniCssExtractPlugin()]
       : (() => {
           const htmlBaseName = path.parse(entry.html).base;
-          const plugins: any[] = [];
+          const plugins = [];
 
           // 在生产模式下，如果存在版本号，生成带版本号的文件
           if (argv.mode === 'production' && frontend_version) {
@@ -392,7 +430,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
             new HtmlInlineScriptWebpackPlugin(),
             new MiniCssExtractPlugin(),
             new HTMLInlineCSSWebpackPlugin({
-              styleTagFactory({ style }: { style: string }) {
+              styleTagFactory({ style }) {
                 return `<style>${style}</style>`;
               },
             }),
@@ -500,7 +538,7 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
       if (builtin.includes(request)) {
         return callback();
       }
-      if (argv.mode !== 'production' && ['vue', 'pixi'].some(key => request.includes(key))) {
+      if (argv.mode !== 'production' && ['vue', 'pixi'].some((key) => request.includes(key))) {
         return callback();
       }
       const global = {
@@ -514,17 +552,39 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
         'pixi.js': 'PIXI',
       };
       if (request in global) {
-        return callback(null, 'var ' + global[request as keyof typeof global]);
+        return callback(null, 'var ' + global[request]);
       }
       const cdn = {
         sass: 'https://jspm.dev/sass',
       };
       return callback(
         null,
-        'module-import ' + (cdn[request as keyof typeof cdn] ?? `https://testingcf.jsdelivr.net/npm/${request}/+esm`),
+        'module-import ' + (cdn[request] ?? `https://testingcf.jsdelivr.net/npm/${request}/+esm`),
       );
     },
   });
 }
 
-export default config.entries.map(parse_configuration);
+export default async (env, argv) => {
+  // Dynamic imports
+  HtmlInlineScriptWebpackPlugin = (await import('html-inline-script-webpack-plugin')).default;
+  HtmlWebpackPlugin = (await import('html-webpack-plugin')).default;
+  MiniCssExtractPlugin = (await import('mini-css-extract-plugin')).default;
+  RemarkHTML = (await import('remark-html')).default;
+  TerserPlugin = (await import('terser-webpack-plugin')).default;
+  TsconfigPathsPlugin = (await import('tsconfig-paths-webpack-plugin')).default;
+  unpluginAutoImport = (await import('unplugin-auto-import/webpack')).default;
+  const unpluginVueResolvers = await import('unplugin-vue-components/resolvers');
+  VueUseComponentsResolver = unpluginVueResolvers.VueUseComponentsResolver;
+  VueUseDirectiveResolver = unpluginVueResolvers.VueUseDirectiveResolver;
+  unpluginVueComponents = (await import('unplugin-vue-components/webpack')).default;
+  VueLoaderPlugin = (await import('vue-loader')).VueLoaderPlugin;
+  webpack = (await import('webpack')).default;
+  WebpackObfuscator = (await import('webpack-obfuscator')).default;
+  const htmlInlineCssModule = await import('html-inline-css-webpack-plugin');
+  HTMLInlineCSSWebpackPlugin = htmlInlineCssModule.default.default || htmlInlineCssModule.default;
+
+  const script_files = await glob_script_files();
+  const entries = script_files.map(parse_entry);
+  return entries.map(entry => parse_configuration(entry)(env, argv));
+};

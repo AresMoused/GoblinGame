@@ -24,5 +24,10 @@
     "skipLibCheck": true
   },
   "include": ["@types", "src", "*.d.ts", "auto-imports.d.ts", "components.d.ts"],
-  "exclude": ["**/dist/**", "**/node_modules/**"]
+  "exclude": ["**/dist/**", "**/node_modules/**"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
